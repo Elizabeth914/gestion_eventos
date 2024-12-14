@@ -105,5 +105,21 @@ usuarios.getUsuariosJoin = (callback) => {
         callback(new Error('No se pudo establecer la conexión'), null);
     }
 };
+
+usuarios.getUsuariosJoinId = (usuarioData,callback) => {
+    if (connection) {
+        connection.query("select id_usuario as Id, usuario as Usuario,correo as Correo, tipo as Rol from usuarios INNER JOIN tipo_usuario ON usuarios.tipo_usuario = tipo_usuario.id_tipo WHERE usuarios.correo = '"+ usuarioData.correo +"'", (err, rows) => {
+            if (err) {
+                console.error('Error al realizar la consulta: ', err);
+                callback(err, null); // Devolver el error al callback
+                return;
+            }
+            //console.log('Resultados: ', rows);
+            callback(null, rows); // Devolver los datos al callback
+        });
+    } else {
+        callback(new Error('No se pudo establecer la conexión'), null);
+    }
+};
 // Exportar el objeto usuarios
 export default usuarios;

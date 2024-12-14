@@ -20,6 +20,16 @@ router.get('/userJ', (req, res) => {
     });
 });
 
+router.get('/userJ/:correo', (req, res) => {
+    const correo = req.params;
+    usuariosModel.getUsuariosJoinId(correo,(error, data) => {
+        if (error) {
+            return res.status(500).json({ error: 'Error al obtener usuarios' });
+        }
+        res.status(200).json(data);
+    });
+});
+
 router.get('/userid/:correo', (req, res) => {
     const correo = req.params; // Obtén el parámetro "id" de la URL
     usuariosModel.getUsuarioId(correo,(error, data) => {

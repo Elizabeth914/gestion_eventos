@@ -11,6 +11,14 @@ router.get('/eventos', (req,res)=>{
     });
 });
 
+router.get('/eventosEstadistica', (req,res)=>{
+    eventosModel.getEventosEstadisticas((error,data) => {
+        if(error){
+            return res.status(500).json({ error: 'Error al obtener usuarios' });
+        }
+        res.status(200).json(data);
+    });
+});
 // Ruta para obtener un evento por ID
 router.get('/eventos/:id', (req, res) => {
     const id = req.params; // Obtén el parámetro "id" de la URL

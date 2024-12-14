@@ -35,6 +35,21 @@ eventos.getEventos = (callback) =>{
     }
 }
 
+eventos.getEventosEstadisticas = (callback) =>{
+    if(connection){
+        connection.query("SELECT e.id_evento,e.nombre_evento,COUNT(a.id_asistencia) AS total_asistentes FROM eventos e LEFT JOIN asistencia a ON e.id_evento = a.id_evento GROUP BY e.id_evento, e.nombre_evento;",(err,rows) => {
+            if (err) {
+                callback(err,null);
+                return;
+            }else{
+                callback(null, rows);
+            }
+        });
+    }else{
+        callback(new Error('No se pudo establecer la conexión'));
+    }
+}
+
 eventos.getEventoById = (eventosData,callback) =>{
     if(connection){
         connection.query("SELECT * FROM eventos WHERE id_evento = " + eventosData.id,(err,rows) => {
